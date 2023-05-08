@@ -41,6 +41,12 @@ router.put("/update-product", async (req, res) => {
       { _id: req.body.productId },
       req.body
     );
+    if (!product) {
+      res.status(404).json({
+        status: "error",
+        messages: "Product not found",
+      });
+    }
     res.status(200).json({
       status: "success",
       messages: "Product updated successfully",
@@ -59,6 +65,12 @@ router.delete("/delete-product", async (req, res) => {
     const product = await Product.findByIdAndDelete({
       _id: req.body.productId,
     });
+    if(!product){
+      res.status(404).json({
+        status: "error",
+        messages: "Product not found",
+      });
+    }
     res.status(200).json({
       status: "success",
       messages: "Product deleted successfully",
