@@ -1,26 +1,36 @@
 // git init --y
-// npm i express 
+// npm i express
 
 const express = require("express");
 const mongoose = require("mongoose"); // mongoose
 const dotenv = require("dotenv"); // npm i dotenv
 const app = express();
-const PORT = 5000;
+const cors = require("cors");
+const port = 5000;
+
+// routes
+const categoryRoute = require("./routes/categories.js");
 
 dotenv.config();
 
 const connect = async () => {
-    try{
-        await mongoose.connect(process.env.MONGO_URL);
-        console.log("Connected to mongoDB")
-    }catch(error){
-        throw error
-    }
-}
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("Connected to mongoDB");
+  } catch (error) {
+    throw error;
+  }
+};
 
-app.get("/", (req, res) => res.send("hello world")) // client tarafına bir şey gönderme
+// middlewares
+app.use(express.json());
+app.use(cors());
 
-app.listen(PORT, () => {
-    connect();
-    console.log(`Example app listening on port ${PORT}`)
-})
+app.use("/api/categories", categoryRoute);
+
+app.get("/", (req, res) => res.send("hello world")); // client tarafına bir şey gönderme
+
+app.listen(port, () => {
+  connect();
+  console.log(`Example app listening on port ${port}`);
+});
