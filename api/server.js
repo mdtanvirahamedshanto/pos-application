@@ -12,6 +12,7 @@ const port = 5000;
 const categoryRoute = require("./routes/categories.js");
 const productRoute = require("./routes/products.js");
 const billRoute = require("./routes/bills.js");
+const authRoute = require("./routes/auth.js");
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use(cors());
 app.use("/api/categories", categoryRoute);
 app.use("/api/products", productRoute);
 app.use("/api/bills", billRoute);
+app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => res.send("hello world")); // client tarafına bir şey gönderme
 
