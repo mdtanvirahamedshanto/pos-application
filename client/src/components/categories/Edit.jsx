@@ -31,6 +31,7 @@ const Edit = ({
       console.log(error);
     }
   };
+  
 
   const deleteCategory = (id) => {
     if (window.confirm("Silmek İstediğinize Emin Misiniz?")) {
