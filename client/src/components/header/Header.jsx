@@ -41,7 +41,7 @@ const Header = () => {
           </Link>
           <Badge
             count={cart.cartItems.length}
-            offset={[0, 6]}
+            offset={[0, 0]}
             className="md:flex hidden"
           >
             <Link
@@ -83,7 +83,7 @@ const Header = () => {
         </div>
         <Badge
           count={cart.cartItems.length}
-          offset={[0, 6]}
+          offset={[0, 0]}
           className="md:hidden flex"
         >
           <Link
