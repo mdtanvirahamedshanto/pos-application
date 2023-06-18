@@ -13,7 +13,7 @@ const BillPage = () => {
       try {
         const res = await fetch("http://localhost:5000/api/bills/get-all");
         const data = await res.json();
-        setBillItems(data.data);
+        setBillItems(data);
       } catch (error) {
         console.log(error);
       }

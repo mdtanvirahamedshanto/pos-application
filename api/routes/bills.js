@@ -5,11 +5,12 @@ const router = express.Router();
 router.get("/get-all", async (req, res) => {
   try {
     const bills = await Bill.find();
-    res.status(200).json({
-      status: "success",
-      messages: "Bills listed successfully",
-      data: bills,
-    });
+    res.status(200).json(bills);
+    // res.status(200).json({
+    //   status: "success",
+    //   messages: "Bills listed successfully",
+    //   data: bills,
+    // });
   } catch (error) {
     res.status(400).json({
       status: "error",
