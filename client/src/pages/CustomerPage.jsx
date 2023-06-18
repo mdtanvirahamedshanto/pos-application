@@ -1,38 +1,41 @@
+import { useState, useEffect } from "react";
 import Header from "../components/header/Header";
 import { Table } from "antd";
 
 const CustomerPage = () => {
+  const [billItems, setBillItems] = useState([]);
 
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  useEffect(() => {
+    const getBills = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/bills/get-all");
+        const data = await res.json();
+        setBillItems(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getBills();
+  }, []);
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Müşteri Adı",
+      dataIndex: "customerName",
+      key: "customerName",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Telefon Numarası",
+      dataIndex: "customerPhoneNumber",
+      key: "customerPhoneNumber",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "İşlem Tarihi",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => {
+        return <span>{text.substring(0, 10)}</span>;
+      },
     },
   ];
 
@@ -40,8 +43,17 @@ const CustomerPage = () => {
     <>
       <Header />
       <div className="px-6">
-        <h1 className='text-4xl font-bold text-center mb-4'>Müşterilerim</h1>
-        <Table dataSource={dataSource} columns={columns} bordered pagination={false}/>
+        <h1 className="text-4xl font-bold text-center mb-4">Müşterilerim</h1>
+        <Table
+          dataSource={billItems}
+          columns={columns}
+          bordered
+          pagination={false}
+          scroll={{
+            x: 1000,
+            y: 300,
+          }}
+        />
       </div>
     </>
   );
