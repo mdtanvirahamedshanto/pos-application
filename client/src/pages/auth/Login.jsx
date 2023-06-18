@@ -1,15 +1,58 @@
-import React from "react";
-import { Button, Form, Input, Carousel, Checkbox } from "antd";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Button, Form, Input, Carousel, Checkbox, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import AuthCarousel from "../../components/auth/AuthCarousel";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+
+      const user = await res.json();
+      console.log(user);
+
+      if (res.status === 200) {
+        localStorage.setItem(
+          "postUser",
+          JSON.stringify({
+            username: user.data.username,
+            email: user.data.email,
+          })
+        );
+        message.success("Giriş işlemi başarılı");
+        navigate("/");
+        setLoading(false);
+      } else if (res.status === 404) {
+        message.error("Kullanıcı Bulunamadı!");
+        setLoading(false);
+      } else if (res.status === 403) {
+        message.error("Şifre Yanlış.");
+        setLoading(false);
+      }
+    } catch (error) {
+      message.error("Bir şeyler yanlış gitti");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen">
       <div className="flex justify-between h-full">
         <div className="xl:px-20 px-10 w-full flex flex-col h-full justify-center relative">
           <h1 className="text-center text-5xl font-bold mb-2">LOGO</h1>
-          <Form layout="vertical">
+          <Form
+            layout="vertical"
+            onFinish={onFinish}
+            initialValues={{ remember: false }}
+          >
             <Form.Item
               label="Email"
               name={"email"}
@@ -35,10 +78,10 @@ const Login = () => {
               <Input.Password />
             </Form.Item>
             <Form.Item name={"remember"} valuePropName="checked">
-                <div className="flex justify-between items-center">
-                    <Checkbox>Beni Hatırla</Checkbox>
-                    <Link>Şifremi Unuttum</Link>
-                </div>
+              <div className="flex justify-between items-center">
+                <Checkbox>Beni Hatırla</Checkbox>
+                <Link>Şifremi Unuttum</Link>
+              </div>
             </Form.Item>
             <Form.Item>
               <Button
@@ -46,6 +89,7 @@ const Login = () => {
                 htmlType="submit"
                 className="w-full"
                 size="large"
+                loading={loading}
               >
                 Giriş Yap
               </Button>

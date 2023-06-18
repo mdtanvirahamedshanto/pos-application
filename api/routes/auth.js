@@ -7,11 +7,11 @@ router.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
 
     if (password.length < 6) {
-        return res.status(400).json({ 
-            status: "error",
-            messages: "Password less than 6 characters"
-        })
-      }
+      return res.status(400).json({
+        status: "error",
+        messages: "Password less than 6 characters",
+      });
+    }
 
     // Validate user input
     if (!(email && password && username)) {
@@ -65,13 +65,13 @@ router.post("/login", async (req, res) => {
         messages: "Please enter all fields",
       });
     }
-
     const user = await User.findOne({ email: req.body.email });
-    !user &&
-      res.status(404).json({
+    if (!user) {
+      return res.status(404).json({
         status: "error",
         messages: "User not found",
       });
+    }
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
       res.status(403).json({
