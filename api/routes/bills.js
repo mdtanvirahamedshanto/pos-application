@@ -2,7 +2,7 @@ const Bill = require("../models/Bill.js");
 const express = require("express");
 const router = express.Router();
 
-router.get("/get-bills", async (req, res) => {
+router.get("/get-all", async (req, res) => {
   try {
     const bills = await Bill.find();
     res.status(200).json({
