@@ -14,7 +14,7 @@ const HomePage = () => {
     const getCategories = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/categories/get-categories"
+          process.env.REACT_APP_SERVER_URL + "/api/categories/get-categories"
         );
         const data = await res.json();
         if (data.status === "success") {
@@ -40,7 +40,7 @@ const HomePage = () => {
     const getProducts = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/products/get-products"
+          process.env.REACT_APP_SERVER_URL + "/api/products/get-products"
         );
         const data = await res.json();
         if (data.status === "success") {

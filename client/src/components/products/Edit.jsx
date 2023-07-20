@@ -12,7 +12,7 @@ const Edit = () => {
     const getProducts = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/categories/get-categories"
+          process.env.REACT_APP_SERVER_URL + "/api/categories/get-categories"
         );
         const data = await res.json();
         if (data.status === "success") {
@@ -35,7 +35,7 @@ const Edit = () => {
     const getCategories = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/products/get-products"
+          process.env.REACT_APP_SERVER_URL + "/api/products/get-products"
         );
         const data = await res.json();
         if (data.status === "success") {
@@ -52,7 +52,7 @@ const Edit = () => {
   const onFinish = (values) => {
     console.log(values);
     try {
-      fetch("http://localhost:5000/api/products/update-product", {
+      fetch(process.env.REACT_APP_SERVER_URL + "/api/products/update-product", {
         method: "PUT",
         body: JSON.stringify({ ...values, productId: editingItem._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -76,7 +76,7 @@ const Edit = () => {
   const deleteCategory = (id) => {
     if (window.confirm("Silmek İstediğinize Emin Misiniz?")) {
       try {
-        fetch("http://localhost:5000/api/products/delete-product", {
+        fetch(process.env.REACT_APP_SERVER_URL + "/api/products/delete-product", {
           method: "DELETE",
           body: JSON.stringify({ productId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },

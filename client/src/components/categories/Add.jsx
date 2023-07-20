@@ -10,7 +10,7 @@ const Add = ({
   const [form] = Form.useForm();
   const onFinish = (values) => {
     try {
-      fetch("http://localhost:5000/api/categories/add-category", {
+      fetch(process.env.REACT_APP_SERVER_URL + "/api/categories/add-category", {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
