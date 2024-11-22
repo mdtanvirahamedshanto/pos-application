@@ -5,7 +5,7 @@ This is a POS application which businesses can perform CRUD operations. The proj
 ## Techs
 This software uses the following open source packages:
 
-Backend:
+Backend:   c
 * node.js
 * expressjs
 * mongoose
